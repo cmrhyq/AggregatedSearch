@@ -1,0 +1,2 @@
+# AggregatedSearch
+Aggregated Search Platform
