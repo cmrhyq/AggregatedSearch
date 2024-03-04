@@ -1,27 +1,84 @@
 <template>
   <div class="index-page">
     <a-input-search
-      v-model:value="searchText"
+      v-model:value="searchParams.text"
       placeholder="input search text"
       enter-button="Search"
       size="large"
       @search="onSearch"
     />
-    <a-tabs v-model:activeKey="activeKey">
-      <a-tab-pane key="1" tab="Tab 1">Content of Tab Pane 1</a-tab-pane>
-      <a-tab-pane key="2" tab="Tab 2">Content of Tab Pane 2</a-tab-pane>
-      <a-tab-pane key="3" tab="Tab 3">Content of Tab Pane 3</a-tab-pane>
+    <Divider />
+    <a-tabs v-model:activeKey="activeKey" @change="onTabChange">
+      <a-tab-pane key="post" tab="文章">
+        <PostLIst :post-list="postList"/>
+      </a-tab-pane>
+      <a-tab-pane key="user" tab="用户">
+        <UserList :user-list="userList"/>
+      </a-tab-pane>
+      <a-tab-pane key="picture" tab="图片">
+        <PictureList />
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref } from "vue";
+import { ref, watchEffect } from "vue";
+import PostLIst from "@/components/PostLIst.vue";
+import UserList from "@/components/UserList.vue";
+import PictureList from "@/components/PictureList.vue";
+import Divider from "@/components/DividerPage.vue";
+import { useRoute, useRouter } from "vue-router";
+import requestAxios from "@/plugins/requestAxios";
 
-const searchText = ref("");
-const activeKey = ref("1");
+const route = useRoute();
+const router = useRouter();
+/**
+ * 路由参数中的category
+ */
+const activeKey = route.params.category;
+const postList = ref([]);
+const userList = ref([]);
+
+requestAxios.post("post/list/page/vo", {}).then((response: any) => {
+  postList.value = response.records;
+});
+
+requestAxios.post("user/list/page/vo", {}).then((response: any) => {
+  userList.value = response.records;
+});
+
+/**
+ * 初始化参数
+ */
+const initSearchParams = {
+  text: "",
+  pageSize: 10,
+  pageNum: 1,
+};
+
+const searchParams = ref(initSearchParams);
+
+/**
+ * url改变则将 searchParams 改变
+ */
+watchEffect(() => {
+  searchParams.value = {
+    ...initSearchParams,
+    text: route.query.text,
+  } as any;
+});
 
 const onSearch = (value: string) => {
-  alert(value);
+  router.push({
+    query: searchParams.value,
+  });
+};
+
+const onTabChange = (key: string) => {
+  router.push({
+    path: `/${key}`,
+    query: searchParams.value,
+  });
 };
 </script>
