@@ -43,7 +43,7 @@ public class FetchInitPostList implements CommandLineRunner {
             String result = HttpRequest.post(url)
                     .body(json)
                     .execute().body();
-            Map<String, Object> map = JSONUtil.toBean(result, Map.class);
+            Map map = JSONUtil.toBean(result, Map.class);
             JSONObject data = (JSONObject) map.get("data");
             JSONArray records = (JSONArray) data.get("records");
             List<Post> posts = new ArrayList<>();
