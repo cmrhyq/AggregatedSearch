@@ -16,7 +16,7 @@
         <UserList :user-list="userList"/>
       </a-tab-pane>
       <a-tab-pane key="picture" tab="图片">
-        <PictureList />
+        <PictureList :picture-list="pictureList"/>
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -39,14 +39,7 @@ const router = useRouter();
 const activeKey = route.params.category;
 const postList = ref([]);
 const userList = ref([]);
-
-requestAxios.post("post/list/page/vo", {}).then((response: any) => {
-  postList.value = response.records;
-});
-
-requestAxios.post("user/list/page/vo", {}).then((response: any) => {
-  userList.value = response.records;
-});
+const pictureList = ref([]);
 
 /**
  * 初始化参数
@@ -59,6 +52,14 @@ const initSearchParams = {
 
 const searchParams = ref(initSearchParams);
 
+requestAxios.post("post/list/page/vo", {}).then((response: any) => {
+  postList.value = response.records;
+});
+
+requestAxios.post("user/list/page/vo", {}).then((response: any) => {
+  userList.value = response.records;
+});
+
 /**
  * url改变则将 searchParams 改变
  */
@@ -69,10 +70,17 @@ watchEffect(() => {
   } as any;
 });
 
+const searchRequest = () => {
+  requestAxios.post("picture/list/page/vo", {"searchText": searchParams.value.text}).then((response: any) => {
+    pictureList.value = response.records;
+  });
+}
+
 const onSearch = (value: string) => {
   router.push({
     query: searchParams.value,
   });
+  searchRequest();
 };
 
 const onTabChange = (key: string) => {
