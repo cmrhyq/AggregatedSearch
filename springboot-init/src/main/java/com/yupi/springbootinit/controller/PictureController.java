@@ -53,14 +53,14 @@ public class PictureController {
      * @return
      */
     @PostMapping("/list/page/vo")
-    public BaseResponse<Page<Picture>> listPictureVOByPage(@RequestBody PictureQueryRequest pictureQueryRequest,
-                                                           HttpServletRequest request) throws IOException {
+    public BaseResponse<Page<Picture>> listPictureByPage(@RequestBody PictureQueryRequest pictureQueryRequest,
+                                                         HttpServletRequest request) throws IOException {
         long current = pictureQueryRequest.getCurrent();
         long size = pictureQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        String searchTest = pictureQueryRequest.getSearchText();
-        Page<Picture> picturePage = pictureService.searchPicture(searchTest, current, size);
+        String searchText = pictureQueryRequest.getSearchText();
+        Page<Picture> picturePage = pictureService.searchPicture(searchText, current, size);
         return ResultUtils.success(picturePage);
     }
 }

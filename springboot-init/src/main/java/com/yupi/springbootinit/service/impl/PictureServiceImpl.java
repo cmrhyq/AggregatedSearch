@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +34,21 @@ import java.util.Map;
  */
 @Service
 public class PictureServiceImpl implements PictureService {
+
     /**
-     * @param searchText
-     * @param pageNum
-     * @param pageSize
+     * @param searchText 搜索内容
+     * @param pageNum    页面数量
+     * @param pageSize   页面大小
      * @return
      */
     @Override
-    public Page<Picture> searchPicture(String searchText, long pageNum, long pageSize) throws IOException {
+    public Page<Picture> searchPicture(String searchText, long pageNum, long pageSize) throws UnsupportedEncodingException {
         long current = (pageNum - 1) * pageSize;
         if (searchText != null) {
             searchText = URLEncoder.encode(searchText, "UTF-8");
         }
-        String url = String.format("https://cn.bing.com/images/search?q=%s&form=HDRSC2&first=%s", searchText, current);
-        System.out.println("url = " + url);
+//        String url = String.format("https://cn.bing.com/images/search?q=%s&form=HDRSC2&first=%s", searchText, current);
+        String url = String.format("https://cn.bing.com/images/async?q=%s&first=%s&count=35&mmasync=1", searchText, current);
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();

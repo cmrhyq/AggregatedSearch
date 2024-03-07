@@ -10,13 +10,13 @@
     <Divider />
     <a-tabs v-model:activeKey="activeKey" @change="onTabChange">
       <a-tab-pane key="post" tab="文章">
-        <PostLIst :post-list="postList"/>
+        <PostLIst :post-list="postList" />
       </a-tab-pane>
       <a-tab-pane key="user" tab="用户">
-        <UserList :user-list="userList"/>
+        <UserList :user-list="userList" />
       </a-tab-pane>
       <a-tab-pane key="picture" tab="图片">
-        <PictureList :picture-list="pictureList"/>
+        <PictureList :picture-list="pictureList" />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -52,13 +52,37 @@ const initSearchParams = {
 
 const searchParams = ref(initSearchParams);
 
-requestAxios.post("post/list/page/vo", {}).then((response: any) => {
-  postList.value = response.records;
-});
+/**
+ * 数据加载
+ * @param params
+ */
+const loadData = (params: any) => {
+  const queryPost = {
+    ...params,
+    searchText: params.text,
+  };
+  requestAxios.post("post/list/page/vo", queryPost).then((response: any) => {
+    postList.value = response.records;
+  });
 
-requestAxios.post("user/list/page/vo", {}).then((response: any) => {
-  userList.value = response.records;
-});
+  const queryUser = {
+    ...params,
+    userName: params.text,
+  };
+  requestAxios.post("user/list/page/vo", queryUser).then((response: any) => {
+    userList.value = response.records;
+  });
+
+  const queryPicture = {
+    ...params,
+    searchText: params.text,
+  };
+  requestAxios.post("picture/list/page/vo", queryPicture).then((response: any) => {
+    pictureList.value = response.records;
+  });
+};
+
+loadData(initSearchParams);
 
 /**
  * url改变则将 searchParams 改变
@@ -70,17 +94,11 @@ watchEffect(() => {
   } as any;
 });
 
-const searchRequest = () => {
-  requestAxios.post("picture/list/page/vo", {"searchText": searchParams.value.text}).then((response: any) => {
-    pictureList.value = response.records;
-  });
-}
-
 const onSearch = (value: string) => {
   router.push({
     query: searchParams.value,
   });
-  searchRequest();
+  loadData(searchParams.value);
 };
 
 const onTabChange = (key: string) => {

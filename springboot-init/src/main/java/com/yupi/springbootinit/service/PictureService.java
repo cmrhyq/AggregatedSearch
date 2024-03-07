@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yupi.springbootinit.model.entity.Picture;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * 图片服务
@@ -12,5 +13,5 @@ import java.io.IOException;
  */
 public interface PictureService {
 
-    Page<Picture> searchPicture(String searchText, long pageNum, long pageSize) throws IOException;
+    Page<Picture> searchPicture(String searchText, long pageNum, long pageSize) throws UnsupportedEncodingException;
 }
