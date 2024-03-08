@@ -57,29 +57,39 @@ const searchParams = ref(initSearchParams);
  * @param params
  */
 const loadData = (params: any) => {
-  const queryPost = {
+  const query = {
     ...params,
     searchText: params.text,
   };
-  requestAxios.post("post/list/page/vo", queryPost).then((response: any) => {
-    postList.value = response.records;
+  requestAxios.post("search/all", query).then((response: any) => {
+    postList.value = response.postList;
+    userList.value = response.userList;
+    pictureList.value = response.pictureList;
   });
 
-  const queryUser = {
-    ...params,
-    userName: params.text,
-  };
-  requestAxios.post("user/list/page/vo", queryUser).then((response: any) => {
-    userList.value = response.records;
-  });
-
-  const queryPicture = {
-    ...params,
-    searchText: params.text,
-  };
-  requestAxios.post("picture/list/page/vo", queryPicture).then((response: any) => {
-    pictureList.value = response.records;
-  });
+  // const queryPost = {
+  //   ...params,
+  //   searchText: params.text,
+  // };
+  // requestAxios.post("post/list/page/vo", queryPost).then((response: any) => {
+  //   postList.value = response.records;
+  // });
+  //
+  // const queryUser = {
+  //   ...params,
+  //   userName: params.text,
+  // };
+  // requestAxios.post("user/list/page/vo", queryUser).then((response: any) => {
+  //   userList.value = response.records;
+  // });
+  //
+  // const queryPicture = {
+  //   ...params,
+  //   searchText: params.text,
+  // };
+  // requestAxios.post("picture/list/page/vo", queryPicture).then((response: any) => {
+  //   pictureList.value = response.records;
+  // });
 };
 
 loadData(initSearchParams);
