@@ -2,6 +2,8 @@ package com.yupi.springbootinit.model.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * <p>bing抓取的图片</p>
  *
@@ -15,9 +17,11 @@ import lombok.Data;
  * @since v0.0.1
  */
 @Data
-public class Picture {
+public class Picture implements Serializable {
 
     private String title;
 
     private String url;
+
+    private static final long serialVersionUID = 1L;
 }
