@@ -30,6 +30,7 @@ import PictureList from "@/components/PictureList.vue";
 import Divider from "@/components/DividerPage.vue";
 import { useRoute, useRouter } from "vue-router";
 import requestAxios from "@/plugins/requestAxios";
+import { message } from "ant-design-vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -45,6 +46,7 @@ const pictureList = ref([]);
  * 初始化参数
  */
 const initSearchParams = {
+  searchType: activeKey,
   text: "",
   pageSize: 10,
   pageNum: 1,
@@ -53,10 +55,10 @@ const initSearchParams = {
 const searchParams = ref(initSearchParams);
 
 /**
- * 数据加载
+ * 聚合数据，所有栏目一起搜索
  * @param params
  */
-const loadData = (params: any) => {
+const loadAllData = (params: any) => {
   const query = {
     ...params,
     searchText: params.text,
@@ -66,33 +68,35 @@ const loadData = (params: any) => {
     userList.value = response.userList;
     pictureList.value = response.pictureList;
   });
-
-  // const queryPost = {
-  //   ...params,
-  //   searchText: params.text,
-  // };
-  // requestAxios.post("post/list/page/vo", queryPost).then((response: any) => {
-  //   postList.value = response.records;
-  // });
-  //
-  // const queryUser = {
-  //   ...params,
-  //   userName: params.text,
-  // };
-  // requestAxios.post("user/list/page/vo", queryUser).then((response: any) => {
-  //   userList.value = response.records;
-  // });
-  //
-  // const queryPicture = {
-  //   ...params,
-  //   searchText: params.text,
-  // };
-  // requestAxios.post("picture/list/page/vo", queryPicture).then((response: any) => {
-  //   pictureList.value = response.records;
-  // });
 };
 
-loadData(initSearchParams);
+/**
+ * 单类数据，tab栏切换触发搜索
+ * @param params
+ */
+const loadSingleData = (params: any) => {
+  const { searchType } = params;
+  if (!searchType) {
+    message.error("类别为空");
+    return;
+  }
+  const query = {
+    ...params,
+    searchText: params.text,
+  };
+  requestAxios.post("search/all", query).then((response: any) => {
+    if (searchType === "post") {
+      postList.value = response.postList;
+    } else if (searchType === "user") {
+      userList.value = response.userList;
+    } else if (searchType === "picture") {
+      pictureList.value = response.pictureList;
+    } else {
+      message.error("返回错误的类别");
+      return;
+    }
+  });
+};
 
 /**
  * url改变则将 searchParams 改变
@@ -100,17 +104,27 @@ loadData(initSearchParams);
 watchEffect(() => {
   searchParams.value = {
     ...initSearchParams,
-    text: route.query.text,
+    searchText: route.query.text,
+    searchType: route.params.category,
   } as any;
+  loadSingleData(searchParams.value);
 });
 
+/**
+ * 搜索事件
+ * @param value
+ */
 const onSearch = (value: string) => {
   router.push({
     query: searchParams.value,
   });
-  loadData(searchParams.value);
+  loadSingleData(searchParams.value);
 };
 
+/**
+ * tab栏切换事件
+ * @param key
+ */
 const onTabChange = (key: string) => {
   router.push({
     path: `/${key}`,
