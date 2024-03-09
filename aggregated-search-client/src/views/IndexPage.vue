@@ -1,7 +1,7 @@
 <template>
   <div class="index-page">
     <a-input-search
-      v-model:value="searchParams.text"
+      v-model:value="searchText"
       placeholder="input search text"
       enter-button="Search"
       size="large"
@@ -52,7 +52,7 @@ const initSearchParams = {
   pageNum: 1,
 };
 
-const searchParams = ref(initSearchParams);
+const searchText = ref(route.query.text || "");
 
 /**
  * 聚合数据，所有栏目一起搜索
@@ -84,6 +84,7 @@ const loadSingleData = (params: any) => {
     ...params,
     searchText: params.text,
   };
+
   requestAxios.post("search/all", query).then((response: any) => {
     if (searchType === "post") {
       postList.value = response.postList;
@@ -98,13 +99,15 @@ const loadSingleData = (params: any) => {
   });
 };
 
+const searchParams = ref(initSearchParams);
+
 /**
  * url改变则将 searchParams 改变
  */
 watchEffect(() => {
   searchParams.value = {
     ...initSearchParams,
-    searchText: route.query.text,
+    text: route.query.text,
     searchType: route.params.category,
   } as any;
   loadSingleData(searchParams.value);
@@ -116,9 +119,11 @@ watchEffect(() => {
  */
 const onSearch = (value: string) => {
   router.push({
-    query: searchParams.value,
+    query: {
+      ...searchParams.value,
+      text: value,
+    },
   });
-  loadSingleData(searchParams.value);
 };
 
 /**
