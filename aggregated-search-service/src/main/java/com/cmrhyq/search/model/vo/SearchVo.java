@@ -1,6 +1,6 @@
 package com.cmrhyq.search.model.vo;
 
-import com.google.gson.Gson;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cmrhyq.search.model.entity.Picture;
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * <p></p>
+ * <p>搜索实体VO</p>
  *
  * @author Alan Huang
  * @version v0.0.1
@@ -27,6 +27,8 @@ public class SearchVo implements Serializable {
     List<PostVO> postList;
 
     List<Picture> pictureList;
+
+    List<?> dataList;
 
     private static final long serialVersionUID = 1L;
 }
