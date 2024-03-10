@@ -87,11 +87,11 @@ const loadSingleData = (params: any) => {
 
   requestAxios.post("search/all", query).then((response: any) => {
     if (searchType === "post") {
-      postList.value = response.postList;
+      postList.value = response.dataList;
     } else if (searchType === "user") {
-      userList.value = response.userList;
+      userList.value = response.dataList;
     } else if (searchType === "picture") {
-      pictureList.value = response.pictureList;
+      pictureList.value = response.dataList;
     } else {
       message.error("返回错误的类别");
       return;
