@@ -3,6 +3,9 @@
     "post": {}
   },
   "mappings": {
+    "id": {
+      "type": "long"
+    },
     "properties": {
       "title": {
         "type": "text",
