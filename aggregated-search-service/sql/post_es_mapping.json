@@ -3,10 +3,10 @@
     "post": {}
   },
   "mappings": {
-    "id": {
-      "type": "long"
-    },
     "properties": {
+      "id": {
+        "type": "keyword"
+      },
       "title": {
         "type": "text",
         "analyzer": "ik_max_word",
@@ -33,19 +33,21 @@
         "type": "keyword"
       },
       "thumbNum": {
-        "type": "long"
+        "type": "keyword"
       },
       "favourNum": {
-        "type": "long"
+        "type": "keyword"
       },
       "userId": {
         "type": "keyword"
       },
       "createTime": {
-        "type": "date"
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss"
       },
       "updateTime": {
-        "type": "date"
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss"
       },
       "isDelete": {
         "type": "keyword"
