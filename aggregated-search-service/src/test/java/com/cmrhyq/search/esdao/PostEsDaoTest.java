@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Resource;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -49,10 +51,10 @@ public class PostEsDaoTest {
     @Test
     void testAdd() {
         PostEsDTO postEsDTO = new PostEsDTO();
-        postEsDTO.setId(1L);
-        postEsDTO.setTitle("test");
-        postEsDTO.setContent("test");
-        postEsDTO.setTags(Arrays.asList("java", "python"));
+        postEsDTO.setId(Long.valueOf(RandomStringUtils.randomNumeric(19)));
+        postEsDTO.setTitle("Alan学习Elasticsearch");
+        postEsDTO.setContent("Alan正在熬夜学习Elasticsearch、Kibana、Logstash，并且用Java连接Elasticsearch来做程序");
+        postEsDTO.setTags(Arrays.asList("java", "Elasticsearch", "Alan"));
         postEsDTO.setThumbNum(1);
         postEsDTO.setFavourNum(1);
         postEsDTO.setUserId(1L);
