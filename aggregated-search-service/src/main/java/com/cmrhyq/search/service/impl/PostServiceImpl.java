@@ -130,6 +130,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return queryWrapper;
     }
 
+    /**
+     * 从es中搜索
+     * @param postQueryRequest 搜索参数
+     * @return 帖子数据
+     */
     @Override
     public Page<Post> searchFromEs(PostQueryRequest postQueryRequest) {
         Long id = postQueryRequest.getId();
