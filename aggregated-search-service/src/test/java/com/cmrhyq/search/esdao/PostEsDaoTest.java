@@ -4,6 +4,7 @@ import com.cmrhyq.search.model.dto.post.PostEsDTO;
 import com.cmrhyq.search.model.dto.post.PostQueryRequest;
 import com.cmrhyq.search.model.entity.Post;
 import com.cmrhyq.search.service.PostService;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -80,5 +81,12 @@ public class PostEsDaoTest {
     void testFindByCategory() {
         List<PostEsDTO> postEsDaoTestList = postEsDao.findByUserId(1L);
         System.out.println(postEsDaoTestList);
+    }
+
+    @Test
+    void testFindByTitle() {
+        String title = "Alan";
+        List<PostEsDTO> postEsDTOS = postEsDao.findByTitle(title);
+        System.out.println("postEsDTOS = " + postEsDTOS);
     }
 }
