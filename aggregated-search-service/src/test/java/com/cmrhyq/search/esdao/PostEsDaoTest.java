@@ -67,7 +67,7 @@ public class PostEsDaoTest {
 
     @Test
     void testFindById() {
-        Optional<PostEsDTO> postEsDTO = postEsDao.findById(1L);
+        Optional<PostEsDTO> postEsDTO = postEsDao.findById(2678886914808079503L);
         System.out.println(postEsDTO);
     }
 
