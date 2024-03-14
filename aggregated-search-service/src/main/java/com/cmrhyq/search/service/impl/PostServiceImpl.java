@@ -130,6 +130,32 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return queryWrapper;
     }
 
+    /**
+     * 从es中搜索
+     * <div>
+     * <p>match 代表检索，即模糊搜索，term 代表精确搜索</p>
+     * {
+     *   "query": {
+     *     "bool": {
+     *       "must": [
+     *         {
+     *           "match": {
+     *             "title": "学习"
+     *           }
+     *         },
+     *         {
+     *           "match": {
+     *             "content": "熬夜"
+     *           }
+     *         }
+     *       ]
+     *     }
+     *   }
+     * }
+     * </div>
+     * @param postQueryRequest 搜索参数
+     * @return 帖子数据
+     */
     @Override
     public Page<Post> searchFromEs(PostQueryRequest postQueryRequest) {
         Long id = postQueryRequest.getId();

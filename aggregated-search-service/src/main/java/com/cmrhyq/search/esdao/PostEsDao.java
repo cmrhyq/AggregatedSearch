@@ -1,7 +1,9 @@
 package com.cmrhyq.search.esdao;
 
 import com.cmrhyq.search.model.dto.post.PostEsDTO;
+
 import java.util.List;
+
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -12,4 +14,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 public interface PostEsDao extends ElasticsearchRepository<PostEsDTO, Long> {
 
     List<PostEsDTO> findByUserId(Long userId);
+
+    List<PostEsDTO> findByTitle(String title);
 }

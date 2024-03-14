@@ -8,6 +8,8 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
@@ -21,7 +23,7 @@ import java.util.List;
  * @author <a href="https://github.com/cmrhyq">AlanHuang</a>
  **/
 // todo 取消注释开启 ES（须先配置 ES）
-//@Document(indexName = "post")
+@Document(indexName = "post")
 @Data
 public class PostEsDTO implements Serializable {
 
@@ -66,13 +68,13 @@ public class PostEsDTO implements Serializable {
     /**
      * 创建时间
      */
-    @Field(index = false, store = true, type = FieldType.Date, format = {}, pattern = DATE_TIME_PATTERN)
+    @Field(index = false, store = true, type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
      * 更新时间
      */
-    @Field(index = false, store = true, type = FieldType.Date, format = {}, pattern = DATE_TIME_PATTERN)
+    @Field(index = false, store = true, type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**
