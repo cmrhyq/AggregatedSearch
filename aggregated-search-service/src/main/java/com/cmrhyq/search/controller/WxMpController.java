@@ -1,12 +1,14 @@
 package com.cmrhyq.search.controller;
 
 import com.cmrhyq.search.wxmp.WxMpConstant;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
@@ -106,8 +108,7 @@ public class WxMpController {
         WxMenuButton wxMenuButton1SubButton1 = new WxMenuButton();
         wxMenuButton1SubButton1.setType(MenuButtonType.VIEW);
         wxMenuButton1SubButton1.setName("跳转页面");
-        wxMenuButton1SubButton1.setUrl(
-                "https://yupi.icu");
+        wxMenuButton1SubButton1.setUrl("https://cmrhyq.top");
         wxMenuButton1.setSubButtons(Collections.singletonList(wxMenuButton1SubButton1));
 
         // 菜单二
@@ -123,7 +124,7 @@ public class WxMpController {
         WxMenuButton wxMenuButton3SubButton1 = new WxMenuButton();
         wxMenuButton3SubButton1.setType(MenuButtonType.VIEW);
         wxMenuButton3SubButton1.setName("编程学习");
-        wxMenuButton3SubButton1.setUrl("https://yupi.icu");
+        wxMenuButton3SubButton1.setUrl("https://cmrhyq.top");
         wxMenuButton3.setSubButtons(Collections.singletonList(wxMenuButton3SubButton1));
 
         // 设置主菜单
