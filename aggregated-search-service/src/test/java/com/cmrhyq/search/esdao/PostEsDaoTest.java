@@ -52,7 +52,7 @@ public class PostEsDaoTest {
     @Test
     void testAdd() {
         PostEsDTO postEsDTO = new PostEsDTO();
-        postEsDTO.setId(Long.valueOf(RandomStringUtils.randomNumeric(19)));
+        postEsDTO.setId(1765052768176799748L);
         postEsDTO.setTitle("Alan学习Elasticsearch");
         postEsDTO.setContent("Alan正在熬夜学习Elasticsearch、Kibana、Logstash，并且用Java连接Elasticsearch来做程序");
         postEsDTO.setTags(Arrays.asList("java", "Elasticsearch", "Alan"));
