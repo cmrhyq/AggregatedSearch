@@ -5,14 +5,16 @@
     :data-source="props.pictureList"
   >
     <template #renderItem="{ item }">
-      <a-list-item>
-        <a-card hoverable>
-          <template #cover>
-            <img alt="example" :src="item.url" />
-          </template>
-          <a-card-meta :title="item.title"> </a-card-meta>
-        </a-card>
-      </a-list-item>
+      <a :href="item.url" target="_blank">
+        <a-list-item>
+          <a-card hoverable>
+            <template #cover>
+              <img alt="example" :src="item.url" />
+            </template>
+            <a-card-meta :title="item.title"> </a-card-meta>
+          </a-card>
+        </a-list-item>
+      </a>
     </template>
   </a-list>
 </template>
