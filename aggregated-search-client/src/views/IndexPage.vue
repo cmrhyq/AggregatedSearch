@@ -56,6 +56,7 @@ const searchText = ref(route.query.text || "");
 
 /**
  * 聚合数据，所有栏目一起搜索
+ * TODO 防抖、节流
  * @param params
  */
 const loadAllData = (params: any) => {
