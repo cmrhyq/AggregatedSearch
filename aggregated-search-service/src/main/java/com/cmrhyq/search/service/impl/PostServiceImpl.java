@@ -131,6 +131,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     /**
+     * TODO 高亮搜索, https://www.elastic.co/guide/en/elasticsearch/reference/7.17/highlighting.html
+     * TODO 搜索建议, https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-suggesters.html
      * 从es中搜索
      * <div>
      * <p>match 代表检索，即模糊搜索，term 代表精确搜索</p>
