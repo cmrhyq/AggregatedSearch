@@ -1,11 +1,10 @@
-package com.cmrhyq.search.datasource;
+package com.cmrhyq.search.datasource.search;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cmrhyq.search.common.ErrorCode;
 import com.cmrhyq.search.exception.BusinessException;
 import com.cmrhyq.search.model.entity.Picture;
-import com.cmrhyq.search.service.PictureService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,7 +31,7 @@ import java.util.Map;
  * @since v0.0.1
  */
 @Service
-public class PictureDataSource implements DataSource<Picture> {
+public class PictureSearchDataSource implements SearchDataSource<Picture> {
 
     /**
      * @param searchText 搜索内容

@@ -1,6 +1,4 @@
 # 公共配置文件
-# @author <a href="https://github.com/cmrhyq">AlanHuang</a>
-# @from <a href="https://yupi.icu">编程导航知识星球</a>
 spring:
   application:
     name: aggregated-search-server
@@ -97,3 +95,12 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.cmrhyq.search.controller
+
+# Canal配置
+canal:
+  port: 11111
+  host: 127.0.0.1
+  db-user: canal
+  db-password: canal
+  destination: example
+  sync-name: "aggregated_search\\..*"
