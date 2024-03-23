@@ -2,7 +2,7 @@ package com.cmrhyq.search.manager;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cmrhyq.search.common.ErrorCode;
-import com.cmrhyq.search.datasource.*;
+import com.cmrhyq.search.datasource.search.*;
 import com.cmrhyq.search.exception.BusinessException;
 import com.cmrhyq.search.exception.ThrowUtils;
 import com.cmrhyq.search.model.dto.post.PostQueryRequest;
@@ -15,15 +15,12 @@ import com.cmrhyq.search.model.vo.SearchVo;
 import com.cmrhyq.search.model.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -43,16 +40,16 @@ import java.util.concurrent.CompletableFuture;
 public class SearchFacade {
 
     @Resource
-    private PictureDataSource pictureDataSource;
+    private PictureSearchDataSource pictureDataSource;
 
     @Resource
-    private UserDataSource userDataSource;
+    private UserSearchDataSource userDataSource;
 
     @Resource
-    private PostDataSource postDataSource;
+    private PostSearchDataSource postDataSource;
 
     @Resource
-    private DataSourceRegistry dataSourceRegistry;
+    private SearchDataSourceRegistry searchDataSourceRegistry;
 
     /**
      * 聚合查询方法
@@ -110,8 +107,8 @@ public class SearchFacade {
             }
         } else {
             SearchVo searchVo = new SearchVo();
-            DataSource<?> dataSource = dataSourceRegistry.getDataSourceByType(searchType);
-            Page<?> page = dataSource.doSearch(searchText, current, pageSize);
+            SearchDataSource<?> searchDataSource = searchDataSourceRegistry.getDataSourceByType(searchType);
+            Page<?> page = searchDataSource.doSearch(searchText, current, pageSize);
             searchVo.setDataList(page.getRecords());
             return searchVo;
         }

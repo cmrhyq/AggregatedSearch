@@ -1,4 +1,4 @@
-package com.cmrhyq.search.datasource;
+package com.cmrhyq.search.datasource.search;
 
 import com.cmrhyq.search.model.enums.SearchTypeEnum;
 import org.apache.poi.ss.formula.functions.T;
@@ -22,18 +22,18 @@ import java.util.Map;
  * @since v0.0.1
  */
 @Component
-public class DataSourceRegistry {
+public class SearchDataSourceRegistry {
 
     @Resource
-    private PictureDataSource pictureDataSource;
+    private PictureSearchDataSource pictureDataSource;
 
     @Resource
-    private UserDataSource userDataSource;
+    private UserSearchDataSource userDataSource;
 
     @Resource
-    private PostDataSource postDataSource;
+    private PostSearchDataSource postDataSource;
 
-    private Map<String, DataSource<T>> typeDataSourceMap;
+    private Map<String, SearchDataSource<T>> typeDataSourceMap;
 
     /**
      * 该方法用于注册这些数据源
@@ -55,7 +55,7 @@ public class DataSourceRegistry {
      * @param type 类型
      * @return DataSource
      */
-    public DataSource getDataSourceByType(String type) {
+    public SearchDataSource getDataSourceByType(String type) {
         if (typeDataSourceMap == null) {
             return null;
         }

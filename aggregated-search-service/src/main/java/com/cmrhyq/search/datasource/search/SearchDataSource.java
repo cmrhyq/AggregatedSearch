@@ -1,7 +1,6 @@
-package com.cmrhyq.search.datasource;
+package com.cmrhyq.search.datasource.search;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cmrhyq.search.model.entity.Picture;
 
 import java.io.UnsupportedEncodingException;
 
@@ -17,7 +16,7 @@ import java.io.UnsupportedEncodingException;
  * @email cmrhyq@163.com
  * @since v0.0.1
  */
-public interface DataSource<T> {
+public interface SearchDataSource<T> {
 
     /**
      * 搜索门面模式接口
