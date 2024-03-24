@@ -47,7 +47,6 @@ public class SaveSync implements CanalSync {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Map<String, Object> param = rowData.getAfterColumnsList().stream().collect(Collectors.toMap(CanalEntry.Column::getName, CanalEntry.Column::getValue));
-            log.info("保存操作, {}", param);
             post.setId(Long.valueOf((String) param.get("id")));
             post.setTitle((String) param.get("title"));
             post.setContent((String) param.get("content"));
@@ -58,6 +57,7 @@ public class SaveSync implements CanalSync {
             post.setCreateTime(df.parse((String) param.get("createTime")));
             post.setUpdateTime(df.parse((String) param.get("updateTime")));
             post.setIsDelete(Integer.parseInt((String) param.get("isDelete")));
+            log.info("保存操作, id = {}", post.getId());
             postEsDao.save(post);
         } catch (Exception e) {
             log.error(e.getMessage());
