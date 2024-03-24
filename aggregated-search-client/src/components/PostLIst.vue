@@ -1,22 +1,14 @@
 <template>
   <a-list item-layout="horizontal" :data-source="props.postList">
     <template #renderItem="{ item }">
-      <a-list-item>
-        <a-list-item-meta :description="item.content">
-          <template #title>
-            <a href="https://www.antdv.com/">{{ item.title }}</a>
-          </template>
-          <template #avatar>
-            <a-avatar
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            />
-          </template>
-        </a-list-item-meta>
-      </a-list-item>
-      <!--      专业版-->
-      <!--      <MarkdownPro :value="item.content" theme="oneDark" :height="600"> {{item.content}}</MarkdownPro>-->
-      <!--      预览版-->
-      <MarkdownPreview :initialValue="item.content"></MarkdownPreview>
+      <a href="www.baidu.com">
+        <a-card :title="item.title" :bordered="true" :loading="false" class="markdown-box">
+          <!--      专业版-->
+          <!--      <MarkdownPro :value="item.content" theme="oneDark" :height="600"> {{item.content}}</MarkdownPro>-->
+          <!--      预览版-->
+          <MarkdownPreview :initialValue="item.content"></MarkdownPreview>
+        </a-card>
+      </a>
     </template>
   </a-list>
 </template>
@@ -35,4 +27,11 @@ const props = withDefaults(defineProps<Props>(), {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.markdown-box {
+  max-height: 500px;
+  overflow: hidden;
+  box-shadow: 6px 3px 11px 1px #f0f0f0;
+  margin: 10px 0 0 0;
+}
+</style>
