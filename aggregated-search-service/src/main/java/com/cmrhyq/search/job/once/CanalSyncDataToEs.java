@@ -116,8 +116,6 @@ public class CanalSyncDataToEs implements CommandLineRunner {
             CanalEntry.RowChange rowChange = CanalEntry.RowChange.parseFrom(entry.getStoreValue());
             for (CanalEntry.RowData rowData : rowChange.getRowDatasList()) {
                 CanalEntry.EventType eventType = rowChange.getEventType();
-                PostEsDTO post = new PostEsDTO();
-                Map<String, Object> param = new HashMap<>();
                 CanalSync canalSync = canalSyncRegistry.getCanalSyncType(eventType);
                 canalSync.syncData(rowData);
             }
