@@ -44,6 +44,7 @@ public class DeleteSync implements CanalSync {
     public void syncData(CanalEntry.RowData rowData) throws ParseException {
         try {
             Map<String, Object> param = rowData.getBeforeColumnsList().stream().collect(Collectors.toMap(CanalEntry.Column::getName, CanalEntry.Column::getValue));
+            log.info("删除操作, id = {}", param.get("id"));
             postEsDao.deletePostById(Long.valueOf((String) param.get("id")));
         } catch (Exception e) {
             log.error(e.getMessage());

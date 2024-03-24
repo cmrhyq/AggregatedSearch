@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import cn.hutool.core.collection.CollUtil;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 /**
  * 获取帖子信息
@@ -25,7 +26,7 @@ import org.springframework.boot.CommandLineRunner;
  * @author <a href="https://github.com/cmrhyq">AlanHuang</a>
  */
 // todo 取消注释开启任务
-//@Component
+@Component
 @Slf4j
 public class FetchInitPostList implements CommandLineRunner {
 
