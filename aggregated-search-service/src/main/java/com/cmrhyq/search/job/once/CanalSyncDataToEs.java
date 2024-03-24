@@ -5,6 +5,8 @@ import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.Message;
 import com.cmrhyq.search.config.CanalConfig;
+import com.cmrhyq.search.datasource.canal.CanalSync;
+import com.cmrhyq.search.datasource.canal.CanalSyncRegistry;
 import com.cmrhyq.search.esdao.PostEsDao;
 import com.cmrhyq.search.mapper.PostMapper;
 import com.cmrhyq.search.model.dto.post.PostEsDTO;
@@ -45,6 +47,9 @@ public class CanalSyncDataToEs implements CommandLineRunner {
 
     @Resource
     private PostEsDao postEsDao;
+
+    @Resource
+    private CanalSyncRegistry canalSyncRegistry;
 
     /**
      * 链接Canal并准备同步数据
@@ -100,7 +105,6 @@ public class CanalSyncDataToEs implements CommandLineRunner {
 
     /**
      * 根据数据的不同动作来 同步数据
-     * TODO 优化数据结构
      *
      * @param entry CanalEntry
      * @throws InvalidProtocolBufferException
@@ -110,61 +114,10 @@ public class CanalSyncDataToEs implements CommandLineRunner {
         if (entry.getEntryType().equals(CanalEntry.EntryType.ROWDATA)) {
             String tableName = entry.getHeader().getTableName();
             CanalEntry.RowChange rowChange = CanalEntry.RowChange.parseFrom(entry.getStoreValue());
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             for (CanalEntry.RowData rowData : rowChange.getRowDatasList()) {
                 CanalEntry.EventType eventType = rowChange.getEventType();
-                PostEsDTO post = new PostEsDTO();
-                Map<String, Object> param = new HashMap<>();
-                switch (eventType) {
-                    case INSERT:
-                        param = rowData.getAfterColumnsList().stream().collect(Collectors.toMap(CanalEntry.Column::getName, CanalEntry.Column::getValue));
-                        log.info("新增操作, {}", param);
-                        post.setId(Long.valueOf((String) param.get("id")));
-                        post.setTitle((String) param.get("title"));
-                        post.setContent((String) param.get("content"));
-                        post.setTags(Collections.singletonList((String) param.get("tags")));
-                        post.setThumbNum(Integer.parseInt((String) param.get("thumbNum")));
-                        post.setFavourNum(Integer.parseInt((String) param.get("favourNum")));
-                        post.setUserId(Long.valueOf((String) param.get("userId")));
-                        post.setCreateTime(df.parse((String) param.get("createTime")));
-                        post.setUpdateTime(df.parse((String) param.get("updateTime")));
-                        post.setIsDelete(Integer.parseInt((String) param.get("isDelete")));
-                        postEsDao.save(post);
-                        break;
-                    case DELETE:
-                        param = rowData.getBeforeColumnsList().stream().collect(Collectors.toMap(CanalEntry.Column::getName, CanalEntry.Column::getValue));
-                        log.info("删除操作, {}", param);
-                        post.setId(Long.valueOf((String) param.get("id")));
-                        post.setTitle((String) param.get("title"));
-                        post.setContent((String) param.get("content"));
-                        post.setTags(Collections.singletonList((String) param.get("tags")));
-                        post.setThumbNum(Integer.parseInt((String) param.get("thumbNum")));
-                        post.setFavourNum(Integer.parseInt((String) param.get("favourNum")));
-                        post.setUserId(Long.valueOf((String) param.get("userId")));
-                        post.setCreateTime(df.parse((String) param.get("createTime")));
-                        post.setUpdateTime(df.parse((String) param.get("updateTime")));
-                        post.setIsDelete(Integer.parseInt((String) param.get("isDelete")));
-                        postEsDao.delete(post);
-                        break;
-                    case UPDATE:
-                        param = rowData.getAfterColumnsList().stream().collect(Collectors.toMap(CanalEntry.Column::getName, CanalEntry.Column::getValue));
-                        log.info("更新操作, {}", param);
-                        post.setId(Long.valueOf((String) param.get("id")));
-                        post.setTitle((String) param.get("title"));
-                        post.setContent((String) param.get("content"));
-                        post.setTags(Collections.singletonList((String) param.get("tags")));
-                        post.setThumbNum(Integer.parseInt((String) param.get("thumbNum")));
-                        post.setFavourNum(Integer.parseInt((String) param.get("favourNum")));
-                        post.setUserId(Long.valueOf((String) param.get("userId")));
-                        post.setCreateTime(df.parse((String) param.get("createTime")));
-                        post.setUpdateTime(df.parse((String) param.get("updateTime")));
-                        post.setIsDelete(Integer.parseInt((String) param.get("isDelete")));
-                        postEsDao.save(post);
-                        break;
-                    default:
-                        log.info("未匹配的类型,忽略: {}", eventType.name());
-                        break;
-                }
+                CanalSync canalSync = canalSyncRegistry.getCanalSyncType(eventType);
+                canalSync.syncData(rowData);
             }
         }
     }
